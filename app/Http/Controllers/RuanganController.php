@@ -11,4 +11,41 @@ class RuanganController extends Controller
         $data = Ruangan::get();
         return view('ruangan', compact('data'));
     }
+    public function create()
+    {
+        return view('ruangan-add');
+    }
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $ruangan = new Ruangan;
+        $ruangan->ruangan = $request->input('ruangan');
+        // dd($ruangan);
+        $ruangan->save();
+
+        return view('ruangan');
+    }
+    public function edit(Request $request, $id)
+    {
+        $ruangan = Ruangan::findOrFail($id);
+        return view('ruangan-edit', ['ruangan' => $ruangan]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $ruangan = Ruangan::findOrFail($id);
+        $ruangan->ruangan = $request->ruangan;
+        $ruangan->save();
+        return redirect('/ruangan');
+    }
+    public function destroy($id)
+{
+    // Lakukan operasi penghapusan data sesuai dengan id
+    // Contoh:
+    Ruangan::find($id)->delete();
+
+    // Redirect atau kembalikan ke halaman yang sesuai
+    return redirect()->back();
+}
+
 }
